@@ -1,14 +1,23 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
 }
 
+project.ext {
+    artifactId = 'yandex_auth_helper'
+    groupId = 'com.github.aakumykov'
+    versionCode = 1
+    versionName = "0.0." + versionCode
+}
+
+
 android {
-    namespace 'com.github.aakumykov.yandex_auth_helper'
-    compileSdk 32
+    namespace = groupId + '.' + artifactId
+    compileSdk 31
 
     defaultConfig {
         minSdk 21
-        targetSdk 32
+        targetSdk 31
 
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -24,6 +33,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -38,4 +52,18 @@ dependencies {
     implementation 'com.github.aakumykov:argument_utils:0.3'
 
     implementation "com.yandex.android:authsdk:2.3.1"
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = project.groupId
+            artifactId = project.artifactId
+            version = versionName
+
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
 }
