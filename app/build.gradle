@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace = 'com.github.aakumykov.yandex_auth_helper_demo'
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.github.aakumykov.yandex_auth_helper_demo"
+        versionCode = 1
+        versionName = "0.0.1"
+
+        minSdk 21
+        targetSdk 31
+
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [YANDEX_CLIENT_ID:"cbd1b111d7f740cfbc9ddb1eb8295353"]
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation project(path: ':lib')
+
+//    testImplementation 'junit:junit:4.13.2'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
