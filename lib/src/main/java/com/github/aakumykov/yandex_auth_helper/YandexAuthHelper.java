@@ -70,6 +70,8 @@ public class YandexAuthHelper {
                 if (null != mCallbacks)
                     mCallbacks.onYandexAuthSuccess(authToken);
             }
+            else
+                throw new YandexAuthException("Auth token is null");
         }
         catch (YandexAuthException e) {
             if (null != mCallbacks)
