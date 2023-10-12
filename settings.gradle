@@ -16,4 +16,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "yandex_auth_helper"
 include ':app'
-include ':lib'
