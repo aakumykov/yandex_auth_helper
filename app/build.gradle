@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = 'com.github.aakumykov.yandex_auth_helper_demo'
-    compileSdk 31
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.github.aakumykov.yandex_auth_helper_demo"
@@ -12,7 +12,7 @@ android {
         versionName = "0.0.1"
 
         minSdk 21
-        targetSdk 31
+        targetSdk 34
 
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [YANDEX_CLIENT_ID:"cbd1b111d7f740cfbc9ddb1eb8295353"]
@@ -68,8 +68,8 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
 
     implementation 'com.github.aakumykov:yandex_auth_helper:0.0.5'
 
