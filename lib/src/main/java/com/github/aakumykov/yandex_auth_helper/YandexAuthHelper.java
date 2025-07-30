@@ -14,8 +14,8 @@ import com.gitlab.aakumykov.exception_utils_module.ExceptionUtils;
 import com.yandex.authsdk.YandexAuthException;
 import com.yandex.authsdk.YandexAuthLoginOptions;
 import com.yandex.authsdk.YandexAuthOptions;
-import com.yandex.authsdk.YandexAuthSdk;
-import com.yandex.authsdk.YandexAuthToken;
+import com.yandex.authsdk.YandexAuthResult;
+import com.yandex.authsdk.YandexAuthSdkContract;
 
 public class YandexAuthHelper {
 
@@ -26,7 +26,7 @@ public class YandexAuthHelper {
 
     private static final String TAG = YandexAuthHelper.class.getSimpleName();
     private final int mLoginRequestCode;
-    private YandexAuthSdk mYandexAuthSdk;
+    private YandexAuthSdkContract mYandexAuthSdkContract;
     private final Activity mActivity;
     private final Context mContext;
     @Nullable
@@ -48,9 +48,9 @@ public class YandexAuthHelper {
 
     public void beginAuthorization() {
 
-        final YandexAuthLoginOptions.Builder loginOptionsBuilder =  new YandexAuthLoginOptions.Builder();
+        final YandexAuthLoginOptions yandexAuthLoginOptions = new YandexAuthLoginOptions();
 
-        final Intent loginIntent = mYandexAuthSdk.createLoginIntent(loginOptionsBuilder.build());
+        final Intent loginIntent = mYandexAuthSdkContract.createIntent(mContext, yandexAuthLoginOptions);
 
         mActivity.startActivityForResult(loginIntent, mLoginRequestCode);
     }
@@ -63,15 +63,23 @@ public class YandexAuthHelper {
 
     private void processYandexAuthorization(int resultCode, @Nullable Intent data) {
         try {
-            final YandexAuthToken yandexAuthToken = mYandexAuthSdk.extractToken(resultCode, data);
+//            final YandexAuthToken yandexAuthToken = mYandexAuthSdk.extractToken(resultCode, data);
+            final YandexAuthResult yandexAuthResult = mYandexAuthSdkContract.parseResult(resultCode, data);
 
-            if (yandexAuthToken != null) {
-                String authToken = yandexAuthToken.getValue();
+            if (yandexAuthResult instanceof YandexAuthResult.Success) {
+                final YandexAuthResult.Success sr = (YandexAuthResult.Success) yandexAuthResult;
+                String authToken = sr.getToken().getValue();
                 if (null != mCallbacks)
                     mCallbacks.onYandexAuthSuccess(authToken);
             }
-            else
-                throw new YandexAuthException("Auth token is null");
+            else if (yandexAuthResult instanceof YandexAuthResult.Failure) {
+                final YandexAuthResult.Failure fr = (YandexAuthResult.Failure) yandexAuthResult;
+                throw new YandexAuthException(ExceptionUtils.getErrorMessage(fr.getException()));
+            }
+            else if (yandexAuthResult instanceof YandexAuthResult.Cancelled) {
+                final YandexAuthResult.Cancelled cr = (YandexAuthResult.Cancelled) yandexAuthResult;
+                throw new YandexAuthException("Auth was cancelled.");
+            }
         }
         catch (YandexAuthException e) {
             if (null != mCallbacks)
@@ -81,13 +89,11 @@ public class YandexAuthHelper {
     }
 
     private void prepareYandexAuthSDK() {
-        mYandexAuthSdk = new YandexAuthSdk(mContext, yandexAuthOptions());
+        mYandexAuthSdkContract = new YandexAuthSdkContract(yandexAuthOptions());
     }
 
     private YandexAuthOptions yandexAuthOptions() {
-        return new YandexAuthOptions.Builder(mActivity)
-                .enableLogging() // Only in testing builds
-                .build();
+        return new YandexAuthOptions(mActivity);
     }
 
     private void logErrors(YandexAuthException yandexAuthException) {

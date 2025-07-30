@@ -6,7 +6,7 @@ plugins {
 project.ext {
     artifactId = 'yandex_auth_helper'
     groupId = 'com.github.aakumykov'
-    versionCode = 5
+    versionCode = 6
     versionName = "0.0." + versionCode
 }
 
@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.github.aakumykov:exception_utils:0.4'
     implementation 'com.github.aakumykov:argument_utils:0.3'
 
-    api "com.yandex.android:authsdk:2.3.1" // TODO: обновить
+    api "com.yandex.android:authsdk:3.1.0"
 }
 
 publishing {
