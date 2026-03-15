@@ -6,20 +6,20 @@ plugins {
 project.ext {
     artifactId = 'yandex_auth_helper'
     groupId = 'com.github.aakumykov'
-    versionCode = 6
+    versionCode = 7
     versionName = "0.0." + versionCode
 }
 
 
 android {
     namespace = groupId + '.' + artifactId
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         minSdk 21
-        targetSdk 34
+        targetSdk 36
 
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -42,16 +42,16 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
 
-//    testImplementation 'junit:junit:4.13.2'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'com.github.aakumykov:exception_utils:0.4'
     implementation 'com.github.aakumykov:argument_utils:0.3'
 
-    api "com.yandex.android:authsdk:3.1.0"
+    api "com.yandex.android:authsdk:3.1.5"
 }
 
 publishing {
