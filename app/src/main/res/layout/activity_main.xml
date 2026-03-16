@@ -7,6 +7,14 @@
     android:padding="8dp"
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/description"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        />
+
     <Button
         android:id="@+id/authButton"
         android:layout_width="match_parent"
