@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Yandex Auth Helper Demo</string>
-    <string name="description">Внешняя библиотека</string>
+    <string name="description">Внутренняя библиотека</string>
 </resources>
